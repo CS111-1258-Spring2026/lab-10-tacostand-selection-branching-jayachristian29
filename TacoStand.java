@@ -2,6 +2,10 @@ public class TacoStand
 {
     /* CONSTANT VARIABLES */
 	public static final String BAR = "----------------------------------------";
+	public static final double STEAK_TACO_PRICE = 2.5;
+	public static final double CHICKEN_TACO_PRICE = 1.75;
+	public static final double BEEF_TONGUE_PRICE = 3.0;
+	public static final double ULTIMATE_TACO = 18.0;
 
 	/* STATIC VARIABLES */
 	private static int numAsada = 0, numPollo = 0, numLengua = 0, numUltimate = 0;
@@ -71,8 +75,8 @@ public class TacoStand
 	 */
 	public static boolean orderSupplies(double budget)
 	{
-		//tacos cost 75 cents each in supplies, keeping it simple
-	    int tacosEach = (int)(Math.round(budget / 0.75 / 4));
+		if (budget <= TacoStand.totalFunds){
+			int tacosEach = (int)(Math.round(budget / 0.75 / 4));
 
 	    TacoStand.totalFunds -= budget;
 
@@ -81,7 +85,14 @@ public class TacoStand
 	    TacoStand.numLengua += tacosEach;
 	    TacoStand.numUltimate += tacosEach;
 
-		return true;  //TODO: this is stubbed, replace this line with your actual code!
+
+		return true;
+		}
+		else{
+			return false;
+		}
+		//tacos cost 75 cents each in supplies, keeping it simple
+	    
 	}
 
 	/**
@@ -93,8 +104,25 @@ public class TacoStand
 	 */
 	public static void updateTotalFunds(int tacoOption, int numTacos)
 	{
-		//TODO: this is stubbed, replace this line with your actual code!
+			double price = 0;
+
+    	if (tacoOption == 1) {
+        	price = STEAK_TACO_PRICE;
+   		}
+    	else if (tacoOption == 2) {
+        	price = CHICKEN_TACO_PRICE;
+    	}
+    	else if (tacoOption == 3) {
+        	price = BEEF_TONGUE_PRICE;
+    	}
+    	else if (tacoOption == 4) {
+        	price = ULTIMATE_TACO;
+    	}
+	if (numTacos <= 5) {
+    	TacoStand.totalFunds += price * numTacos;
 	}
+	}
+
 	
 	
 	/**
@@ -107,6 +135,27 @@ public class TacoStand
 	 */
 	public static boolean areTacosAvailable(int tacoOption, int numTacos)
 	{
-		return false; //TODO: this is stubbed, replace this line with your actual code!
-	}
+		if (tacoOption == 1) return numTacos <= numAsada;
+    	if (tacoOption == 2) return numTacos <= numPollo;
+    	if (tacoOption == 3) return numTacos <= numLengua;
+    	if (tacoOption == 4) return numTacos <= numUltimate;
+
+		return false; 
+}
+
+public static void fulfillOrder(int tacoOption, int numTacos)
+{
+    if (tacoOption == 1 && numTacos <= numAsada) {
+        numAsada -= numTacos;
+    }
+    else if (tacoOption == 2 && numTacos <= numPollo) {
+        numPollo -= numTacos;
+    }
+    else if (tacoOption == 3 && numTacos <= numLengua) {
+        numLengua -= numTacos;
+    }
+    else if (tacoOption == 4 && numTacos <= numUltimate) {
+        numUltimate -= numTacos;
+    }
+}
 }
